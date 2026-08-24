@@ -521,28 +521,88 @@ h3 { font-size: clamp(1.15rem, 1.6vw, 1.35rem); }
   .legal-content { padding: 28px; }
 }
 
+
+
 /* ---- Belt-and-braces: never allow sideways scroll on phones ---- */
 html, body { max-width: 100%; overflow-x: hidden; }
-
-/* Make media and embeds shrink instead of forcing horizontal scroll */
 img, svg, video, canvas, iframe { max-width: 100%; height: auto; }
 
 /* =========================================================================
+   HEADER / NAV — portrait-mode fix
+   Root cause: brand + FR toggle + theme toggle + hamburger overflow the
+   viewport in portrait. These rules make the bar shrink to fit cleanly.
+   ========================================================================= */
+@media (max-width: 720px) {
+  /* Keep the sticky wrapper inside the viewport */
+  .nav-wrap { max-width: 100%; }
+
+  /* Let the flex row shrink; stop items forcing overflow */
+  .nav {
+    gap: 10px;
+    padding: 0 12px;
+    flex-wrap: nowrap;
+    min-width: 0;
+  }
+
+  /* Brand may shrink and truncate instead of pushing buttons off-screen */
+  .brand {
+    min-width: 0;
+    flex: 1 1 auto;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .brand img { flex: none; }               /* logo never squashes */
+
+  /* Action cluster (FR + theme + hamburger) stays intact, never shrinks */
+  .nav-actions {
+    flex: none;
+    gap: 6px;
+    margin-left: auto;
+  }
+
+  /* Uniform, compact tap targets so 3 buttons fit side by side */
+  .nav-actions .icon-btn,
+  .nav-actions .btn,
+  .nav-toggle {
+    flex: none;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+  }
+
+  /* If your FR toggle is a text button, keep it snug rather than full width */
+  .nav-actions [data-lang-toggle] {
+    width: auto;
+    min-width: 40px;
+    padding: 0 10px;
+  }
+
+  /* Mobile dropdown menu should span the bar's width, not overflow it */
+  .mobile-menu { max-width: 100%; }
+}
+
+/* Very narrow phones: hide brand wordmark text, keep just the logo mark */
+@media (max-width: 400px) {
+  .nav { padding: 0 10px; }
+  .brand { font-size: 0; gap: 0; }         /* collapse the "Goibniu" text */
+  .brand img { width: 44px; height: 40px; font-size: 1rem; }
+  .nav-actions { gap: 5px; }
+}
+
+/* =========================================================================
    Tablets & large phones — up to 980px
-   (complements your existing 980px rules; only adds spacing/padding tweaks)
    ========================================================================= */
 @media (max-width: 980px) {
-  .section        { padding: 80px 0; }
-  .hero           { padding: 64px 0 56px; }
-  .cta-band       { padding: 56px 24px; }
+  .section          { padding: 80px 0; }
+  .hero             { padding: 64px 0 56px; }
+  .cta-band         { padding: 56px 24px; }
   .product .p-info  { padding: 32px; }
   .product .p-media { padding: 28px; }
 }
 
 /* =========================================================================
    Phones — up to 720px
-   (your nav already switches to the hamburger here; this refines everything
-    around it so nothing feels cramped)
    ========================================================================= */
 @media (max-width: 720px) {
   .container      { padding-inline: 18px; }
@@ -550,31 +610,24 @@ img, svg, video, canvas, iframe { max-width: 100%; height: auto; }
   .section-sm     { padding: 44px 0; }
   .section-head   { margin-bottom: 32px; }
 
-  /* Slimmer, better-proportioned nav bar */
-  .nav            { height: 62px; margin-top: 10px; padding: 0 14px; }
-  .brand          { font-size: 1rem; gap: 8px; }
+  .brand          { font-size: 1rem; }
   .brand img      { width: 48px; height: 42px; }
-  .nav-actions    { gap: 8px; }
 
-  /* Hero: tighter spacing + full-width, thumb-friendly buttons */
-  .hero           { padding: 48px 0 44px; }
-  .hero h1        { margin: 16px 0; }
-  .hero-cta       { gap: 10px; }
-  .hero-cta .btn  { width: 100%; }
-  .hero-meta      { gap: 18px; }
+  .hero             { padding: 48px 0 44px; }
+  .hero h1          { margin: 16px 0; }
+  .hero-cta         { gap: 10px; }
+  .hero-cta .btn    { width: 100%; }
+  .hero-meta        { gap: 18px; }
   .hero-meta strong { font-size: 1.3rem; }
-  .hero-visual    { margin-top: 40px; }
+  .hero-visual      { margin-top: 40px; }
 
-  /* Cards & product blocks */
-  .card             { padding: 22px; }
-  .product .p-info  { padding: 26px; }
+  .card               { padding: 22px; }
+  .product .p-info    { padding: 26px; }
   .product .p-info h3 { font-size: 1.45rem; }
 
-  /* CTA band: stacked full-width buttons */
-  .cta-band            { padding: 44px 20px; }
+  .cta-band                { padding: 44px 20px; }
   .cta-band .hero-cta .btn { width: 100%; }
 
-  /* Legal tables scroll horizontally instead of breaking the layout */
   .legal-doc table {
     display: block;
     width: 100%;
@@ -582,7 +635,6 @@ img, svg, video, canvas, iframe { max-width: 100%; height: auto; }
     -webkit-overflow-scrolling: touch;
   }
 
-  /* Footer */
   .footer         { padding: 48px 0 28px; }
   .footer-bottom  { flex-direction: column; gap: 8px; text-align: center; }
 }
@@ -593,14 +645,9 @@ img, svg, video, canvas, iframe { max-width: 100%; height: auto; }
 @media (max-width: 480px) {
   .container   { padding-inline: 14px; }
   h1           { font-size: clamp(2rem, 8.5vw, 2.6rem); }
-
-  /* Spec pairs stack cleanly on narrow screens (was 2 columns) */
   .spec-grid   { grid-template-columns: 1fr; }
-
   .btn-lg      { padding: 14px 22px; font-size: 1rem; }
   .icon-btn    { width: 38px; height: 38px; }
-
-  /* Trim large internal paddings so content isn't squeezed */
   .mock-main       { padding: 18px; }
   .product .p-info { padding: 20px; }
   .legal-content   { padding: 20px; }
