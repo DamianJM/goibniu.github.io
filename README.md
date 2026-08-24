@@ -1,2 +1,0 @@
-# Pytorchtest
-Test Pytorch
