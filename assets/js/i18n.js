@@ -57,18 +57,27 @@
 
   function translateText(toFr) {
     var map = TEXT();
+
     collectTextNodes().forEach(function (node) {
-      if (toFr) {
-        var val = map[norm(node.nodeValue)];
-        if (val == null) return;
-        if (!ORIG_TEXT.has(node)) ORIG_TEXT.set(node, node.nodeValue);
-        node.nodeValue = val;
-      } else if (ORIG_TEXT.has(node)) {
-        node.nodeValue = ORIG_TEXT.get(node);
-        ORIG_TEXT.delete(node);
-      }
+        if (toFr) {
+            if (!ORIG_TEXT.has(node))
+                ORIG_TEXT.set(node, node.nodeValue);
+
+            var original = ORIG_TEXT.get(node);
+            var val = map[norm(original)];
+
+            if (val == null) return;
+
+            var leading = original.match(/^\s*/)[0];
+            var trailing = original.match(/\s*$/)[0];
+
+            node.nodeValue = leading + val + trailing;
+        } else if (ORIG_TEXT.has(node)) {
+            node.nodeValue = ORIG_TEXT.get(node);
+            ORIG_TEXT.delete(node);
+        }
     });
-  }
+}
 
   /* ---- Attributes ---- */
   function translateAttrs(toFr) {
