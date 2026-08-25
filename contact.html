@@ -231,25 +231,8 @@
   </footer>
 
   <script src="assets/js/main.js"></script>
-  <script src="assets/js/main.js"></script>
   <script src= "assets/js/i18n.fr.js"></script>
   <script src="assets/js/i18n.js"></script>
   <script src="https://web3forms.com/client/script.js" async defer></script> <!-- captcha -->
-  <script>
-      const form = document.querySelector('[data-contact-form]');
-
-      form.addEventListener('submit', function(e) {
-
-      const captcha = form.querySelector(
-          'textarea[name="h-captcha-response"]'
-      );
-
-      if (!captcha || !captcha.value) {
-          e.preventDefault();
-          alert("Please complete the CAPTCHA.");
-          return;
-      }
-      });
-</script>
 </body>
 </html>

@@ -73,13 +73,22 @@
         var hasRealKey = accessKeyInput && accessKeyInput.value && accessKeyInput.value.indexOf("YOUR_") !== 0;
 
         function showStatus(text) {
-          if (!status) return;
-          status.textContent = text;
-          status.style.display = "block";
+            if (!status) return;
+            status.textContent = text;
+            status.style.display = "block";
+        }
+
+        var captcha = form.querySelector(
+            'textarea[name="h-captcha-response"]'
+        );
+
+        if (!captcha || captcha.value.trim() === "") {
+            showStatus("Please complete the CAPTCHA.");
+            return;
         }
 
         function fallbackEmail() {
-          var eu = "damianjmagill", ed = "gmail.com";
+          var eu = "goibniu.software", ed = "gmail.com";
           showStatus("This form isn't connected yet — please email us directly at " + eu + "@" + ed + " and we'll respond promptly.");
         }
 
@@ -111,6 +120,8 @@
           });
       });
     }
+
+
 
     /* ---- Obfuscated email: click-to-reveal ----
        Address is stored split across two data attributes (no "@" in the
