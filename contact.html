@@ -72,7 +72,6 @@
             <h2 style="font-size:1.5rem;margin-bottom:6px">Send us a message</h2>
             <p class="muted" style="margin-bottom:24px;font-size:.95rem">We typically respond within a couple of business days.</p>
             <form class="form-grid" data-contact-form novalidate>
-              <!-- Get a free access key at https://web3forms.com and paste it below -->
               <input type="hidden" name="access_key" value="51d391f5-1094-491f-82f8-a4ade3b800b3" />
               <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
               <div class="field">
@@ -98,6 +97,7 @@
                 <label for="message">Message <span class="req">*</span></label>
                 <textarea id="message" name="message" placeholder="Tell us a little about what you need…" required></textarea>
               </div>
+              <div class="h-captcha" data-captcha="true"></div>
               <button type="submit" class="btn btn-primary btn-lg btn-block">
                 Send message
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4 20-7z"/></svg>
@@ -115,7 +115,7 @@
                 <div>
                   <h3 style="font-size:1.05rem">Email us</h3>
                   <p class="muted" style="font-size:.95rem;margin-bottom:6px">The fastest way to reach us directly.</p>
-                  <button type="button" data-reveal-email data-eu="damianjmagill" data-ed="gmail.com" style="color:var(--cyan);font-weight:600;background:none;border:none;padding:0;cursor:pointer;font:inherit">Click to reveal email</button>
+                  <button type="button" data-reveal-email data-eu="goibniu.software" data-ed="gmail.com" style="color:var(--cyan);font-weight:600;background:none;border:none;padding:0;cursor:pointer;font:inherit">Click to reveal email</button>
                 </div>
               </div>
               <div class="card contact-card">
@@ -234,5 +234,22 @@
   <script src="assets/js/main.js"></script>
   <script src= "assets/js/i18n.fr.js"></script>
   <script src="assets/js/i18n.js"></script>
+  <script src="https://web3forms.com/client/script.js" async defer></script> <!-- captcha -->
+  <script>
+      const form = document.querySelector('[data-contact-form]');
+
+      form.addEventListener('submit', function(e) {
+
+      const captcha = form.querySelector(
+          'textarea[name="h-captcha-response"]'
+      );
+
+      if (!captcha || !captcha.value) {
+          e.preventDefault();
+          alert("Please complete the CAPTCHA.");
+          return;
+      }
+      });
+</script>
 </body>
 </html>
