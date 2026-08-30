@@ -283,7 +283,7 @@ h3 { font-size: clamp(1.15rem, 1.6vw, 1.35rem); }
   position: relative; border-radius: var(--radius); overflow: hidden;
   border: 1px solid var(--border-strong); background:
     linear-gradient(135deg, rgba(99,102,241,.12), rgba(34,211,238,.08)), var(--bg-2);
-  aspect-ratio: 16 / 10; display: grid; place-items: center;
+  aspect-ratio: 18 / 10; display: grid; place-items: center;
 }
 .img-ph .ph-label {
   position: absolute; top: 12px; left: 12px; font-size: 0.7rem; letter-spacing: .1em; text-transform: uppercase;
